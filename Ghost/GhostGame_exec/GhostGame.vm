@@ -89,7 +89,7 @@ function GhostGame.movePlayer 0
     push argument 0
     pop pointer 0
     push this 1
-    push constant 5
+    push constant 1
     eq
     not
     if-goto GhostGame_9
@@ -100,7 +100,7 @@ function GhostGame.movePlayer 0
 label GhostGame_9
 label GhostGame_8
     push this 1
-    push constant 6
+    push constant 2
     eq
     not
     if-goto GhostGame_11
@@ -111,7 +111,7 @@ label GhostGame_8
 label GhostGame_11
 label GhostGame_10
     push this 1
-    push constant 7
+    push constant 3
     eq
     not
     if-goto GhostGame_13
@@ -122,7 +122,7 @@ label GhostGame_10
 label GhostGame_13
 label GhostGame_12
     push this 1
-    push constant 8
+    push constant 4
     eq
     not
     if-goto GhostGame_15
@@ -147,125 +147,122 @@ label GhostGame_16
     not
     not
     if-goto GhostGame_17
-label GhostGame_18
-    push local 0
-    push constant 0
-    eq
-    not
-    if-goto GhostGame_19
     call Keyboard.keyPressed 0
     pop local 0
-    push pointer 0
-    call GhostGame.moveGhost 1
-    pop temp 0
-    push pointer 0
-    call GhostGame.movePlayer 1
-    pop temp 0
-    push constant 50
-    call Sys.wait 1
-    pop temp 0
-    goto GhostGame_18
-label GhostGame_19
     push local 0
     push constant 81
     eq
     not
-    if-goto GhostGame_21
+    if-goto GhostGame_19
     push constant 1
     neg
     pop local 1
-    goto GhostGame_20
-label GhostGame_21
-label GhostGame_20
+    goto GhostGame_18
+label GhostGame_19
+label GhostGame_18
     push local 0
     push constant 131
     eq
     not
-    if-goto GhostGame_23
+    if-goto GhostGame_21
     push constant 1
+    pop this 0
+    goto GhostGame_20
+label GhostGame_21
+label GhostGame_20
+    push local 0
+    push constant 133
+    eq
+    not
+    if-goto GhostGame_23
+    push constant 2
     pop this 0
     goto GhostGame_22
 label GhostGame_23
 label GhostGame_22
     push local 0
-    push constant 133
+    push constant 130
     eq
     not
     if-goto GhostGame_25
-    push constant 2
+    push constant 3
     pop this 0
     goto GhostGame_24
 label GhostGame_25
 label GhostGame_24
     push local 0
-    push constant 130
+    push constant 132
     eq
     not
     if-goto GhostGame_27
-    push constant 3
+    push constant 4
     pop this 0
     goto GhostGame_26
 label GhostGame_27
 label GhostGame_26
     push local 0
-    push constant 132
+    push constant 46
     eq
     not
     if-goto GhostGame_29
-    push constant 4
+    push constant 0
     pop this 0
     goto GhostGame_28
 label GhostGame_29
 label GhostGame_28
     push local 0
-    push constant 119
+    push constant 87
     eq
     not
     if-goto GhostGame_31
-    push constant 5
+    push constant 1
     pop this 1
     goto GhostGame_30
 label GhostGame_31
 label GhostGame_30
     push local 0
-    push constant 115
+    push constant 83
     eq
     not
     if-goto GhostGame_33
-    push constant 6
+    push constant 2
     pop this 1
     goto GhostGame_32
 label GhostGame_33
 label GhostGame_32
     push local 0
-    push constant 97
+    push constant 65
     eq
     not
     if-goto GhostGame_35
-    push constant 7
+    push constant 3
     pop this 1
     goto GhostGame_34
 label GhostGame_35
 label GhostGame_34
     push local 0
-    push constant 100
+    push constant 68
     eq
     not
     if-goto GhostGame_37
-    push constant 8
+    push constant 4
     pop this 1
     goto GhostGame_36
 label GhostGame_37
 label GhostGame_36
-label GhostGame_38
     push local 0
-    push constant 0
+    push constant 59
     eq
     not
-    not
     if-goto GhostGame_39
-    call Keyboard.keyPressed 0
-    pop local 0
+    push constant 0
+    pop this 1
+    goto GhostGame_38
+label GhostGame_39
+label GhostGame_38
+    push pointer 0
+    call GhostGame.checkCollision 1
+    pop temp 0
     push pointer 0
     call GhostGame.moveGhost 1
     pop temp 0
@@ -275,9 +272,205 @@ label GhostGame_38
     push constant 50
     call Sys.wait 1
     pop temp 0
-    goto GhostGame_38
-label GhostGame_39
     goto GhostGame_16
 label GhostGame_17
+    push constant 0
+    return
+function GhostGame.gameover 0
+    push argument 0
+    pop pointer 0
+    call Screen.clearScreen 0
+    pop temp 0
+    push constant 11
+    push constant 26
+    call Output.moveCursor 2
+    pop temp 0
+    push constant 10
+    call String.new 1
+    push constant 71
+    call String.appendChar 2
+    push constant 65
+    call String.appendChar 2
+    push constant 77
+    call String.appendChar 2
+    push constant 69
+    call String.appendChar 2
+    push constant 32
+    call String.appendChar 2
+    push constant 79
+    call String.appendChar 2
+    push constant 86
+    call String.appendChar 2
+    push constant 69
+    call String.appendChar 2
+    push constant 82
+    call String.appendChar 2
+    push constant 33
+    call String.appendChar 2
+    call Output.printString 1
+    pop temp 0
+    push constant 0
+    return
+function GhostGame.checkCollision 4
+    push argument 0
+    pop pointer 0
+    push this 3
+    call Ghost.getX 1
+    pop local 0
+    push this 3
+    call Ghost.getY 1
+    pop local 1
+    push this 4
+    call Player.getX 1
+    pop local 2
+    push this 4
+    call Player.getY 1
+    pop local 3
+    push this 0
+    push constant 1
+    eq
+    not
+    if-goto GhostGame_41
+    push local 1
+    push constant 16
+    sub
+    pop local 1
+    goto GhostGame_40
+label GhostGame_41
+label GhostGame_40
+    push this 0
+    push constant 2
+    eq
+    not
+    if-goto GhostGame_43
+    push local 1
+    push constant 16
+    add
+    pop local 1
+    goto GhostGame_42
+label GhostGame_43
+label GhostGame_42
+    push this 0
+    push constant 3
+    eq
+    not
+    if-goto GhostGame_45
+    push local 0
+    push constant 16
+    sub
+    pop local 0
+    goto GhostGame_44
+label GhostGame_45
+label GhostGame_44
+    push this 0
+    push constant 4
+    eq
+    not
+    if-goto GhostGame_47
+    push local 0
+    push constant 16
+    add
+    pop local 0
+    goto GhostGame_46
+label GhostGame_47
+label GhostGame_46
+    push this 1
+    push constant 1
+    eq
+    not
+    if-goto GhostGame_49
+    push local 3
+    push constant 16
+    sub
+    pop local 3
+    goto GhostGame_48
+label GhostGame_49
+label GhostGame_48
+    push this 1
+    push constant 2
+    eq
+    not
+    if-goto GhostGame_51
+    push local 3
+    push constant 16
+    add
+    pop local 3
+    goto GhostGame_50
+label GhostGame_51
+label GhostGame_50
+    push this 1
+    push constant 3
+    eq
+    not
+    if-goto GhostGame_53
+    push local 2
+    push constant 16
+    sub
+    pop local 2
+    goto GhostGame_52
+label GhostGame_53
+label GhostGame_52
+    push this 1
+    push constant 4
+    eq
+    not
+    if-goto GhostGame_55
+    push local 2
+    push constant 16
+    add
+    pop local 2
+    goto GhostGame_54
+label GhostGame_55
+label GhostGame_54
+    push local 0
+    push local 2
+    eq
+    push local 1
+    push local 3
+    eq
+    and
+    not
+    if-goto GhostGame_57
+    push constant 0
+    pop this 0
+    push constant 0
+    pop this 1
+    push pointer 0
+    call GhostGame.gameover 1
+    pop temp 0
+    goto GhostGame_56
+label GhostGame_57
+label GhostGame_56
+    push local 0
+    push this 4
+    call Player.getX 1
+    eq
+    push local 1
+    push this 4
+    call Player.getY 1
+    eq
+    and
+    push local 2
+    push this 3
+    call Ghost.getX 1
+    eq
+    push local 3
+    push this 3
+    call Ghost.getY 1
+    eq
+    and
+    and
+    not
+    if-goto GhostGame_59
+    push constant 0
+    pop this 0
+    push constant 0
+    pop this 1
+    push pointer 0
+    call GhostGame.gameover 1
+    pop temp 0
+    goto GhostGame_58
+label GhostGame_59
+label GhostGame_58
     push constant 0
     return

@@ -257,7 +257,7 @@ function Ghost.moveDown 0
     push this 1
     push this 2
     add
-    push constant 239
+    push constant 254
     lt
     not
     if-goto Ghost_7
@@ -305,7 +305,7 @@ function Ghost.moveRight 0
     push this 0
     push this 2
     add
-    push constant 495
+    push constant 510
     lt
     not
     if-goto Ghost_11
@@ -323,4 +323,14 @@ function Ghost.moveRight 0
 label Ghost_11
 label Ghost_10
     push constant 0
+    return
+function Ghost.getX 0
+    push argument 0
+    pop pointer 0
+    push this 0
+    return
+function Ghost.getY 0
+    push argument 0
+    pop pointer 0
+    push this 1
     return

@@ -94,7 +94,7 @@ class Player {
 
    /** Moves the square down by 16 pixels. */
    method void moveDown() {
-      if ((y + size) < 239) {
+      if ((y + size) < 254) {
          do erase();
          let y = y + 16;
          do draw();
@@ -114,11 +114,19 @@ class Player {
 
    /** Moves the square right by 16 pixels. */
    method void moveRight() {
-      if ((x + size) < 495) {
+      if ((x + size) < 510) {
          do erase();
          let x = x + 16;
          do draw();
       }
       return;
+   }
+
+   method int getX(){
+      return x;
+   }
+
+   method int getY(){
+      return y;
    }
 }

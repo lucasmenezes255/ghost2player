@@ -257,7 +257,7 @@ function Player.moveDown 0
     push this 1
     push this 2
     add
-    push constant 239
+    push constant 254
     lt
     not
     if-goto Player_7
@@ -305,7 +305,7 @@ function Player.moveRight 0
     push this 0
     push this 2
     add
-    push constant 495
+    push constant 510
     lt
     not
     if-goto Player_11
@@ -323,4 +323,14 @@ function Player.moveRight 0
 label Player_11
 label Player_10
     push constant 0
+    return
+function Player.getX 0
+    push argument 0
+    pop pointer 0
+    push this 0
+    return
+function Player.getY 0
+    push argument 0
+    pop pointer 0
+    push this 1
     return
