@@ -1,0 +1,107 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/09/Square/SquareGame.jack
+
+/**
+ * Implements the Square Dance game.
+ * This simple game allows the user to move a black square around
+ * the screen, and change the square's size during the movement.
+ * When the game starts, a square of 30 by 30 pixels is shown at the
+ * top-left corner of the screen. The user controls the square as follows.
+ * The 4 arrow keys are used to move the square up, down, left, and right.
+ * The 'z' and 'x' keys are used, respectively, to decrement and increment
+ * the square's size. The 'q' key is used to quit the game.
+ */
+
+class GhostGame {
+   field int direction_ghost; // the square's current direction: 
+                        // 0=none, 1=up, 2=down, 3=left, 4=right
+   field int direction_player;
+   field Random random;
+   field Ghost ghost;
+   field Player player;
+
+   /** Constructs a new Square Game. */
+   constructor GhostGame new() {
+      // Creates a 30 by 30 pixels square and positions it at the top-left
+      // of the screen.
+      let ghost = Ghost.new(0, 0);
+      let player = Player.new(96, 96);
+      let random = Random.new(19);
+      let direction_ghost = 0;  // initial state is no movement
+      let direction_player = 0;
+      return this;
+   }
+
+   /** Disposes this game. */
+   method void dispose() {
+      do ghost.dispose();
+      do player.dispose();
+      do Memory.deAlloc(this);
+      return;
+   }
+
+   /** Moves the square in the current direction. */
+   method void moveGhost() {
+      if (direction_ghost = 1) { do ghost.moveUp(); }
+      if (direction_ghost = 2) { do ghost.moveDown(); }
+      if (direction_ghost = 3) { do ghost.moveLeft(); }
+      if (direction_ghost = 4) { do ghost.moveRight(); }
+      do Sys.wait(5);  // delays the next movement
+      return;
+   }
+
+   method void movePlayer() {
+      if (direction_player = 5) { do player.moveUp(); }
+      if (direction_player = 6) { do player.moveDown(); }
+      if (direction_player = 7) { do player.moveLeft(); }
+      if (direction_player = 8) { do player.moveRight(); }
+      do Sys.wait(5);  // delays the next movement
+      return;
+   }
+
+   /** Runs the game: handles the user's inputs and moves the square accordingly */
+   method void run() {
+      var char key;  // the key currently pressed by the user
+      var boolean exit;
+      let exit = false;
+      
+      while (~exit) {
+         // waits for a key to be pressed
+         while (key = 0) {
+            let key = Keyboard.keyPressed();
+            do moveGhost();
+            do movePlayer();
+            do Sys.wait(50);
+            // let direction = random.randRange(4);
+         }
+         if (key = 81)  { let exit = true; }     // q key
+         // if (key = 90)  { do ghost.decSize(); } // z key
+         // if (key = 88)  { do ghost.incSize(); } // x key
+         if (key = 131) { let direction_ghost = 1; }   // up arrow
+         if (key = 133) { let direction_ghost = 2; }   // down arrow
+         if (key = 130) { let direction_ghost = 3; }   // left arrow
+         if (key = 132) { let direction_ghost = 4; }   // right arrow
+
+         if (key = 119) { let direction_player = 5;}
+         if (key = 115) { let direction_player = 6;}
+         if (key = 97) { let direction_player = 7;}
+         if (key = 100) { let direction_player = 8;}
+
+         // waits for the key to be released
+         while (~(key = 0)) {
+            let key = Keyboard.keyPressed();
+            do moveGhost();
+            do movePlayer();
+            do Sys.wait(50);
+         }
+         // let direction_ghost = 0;
+         // let direction_player = 0; 
+     } // while
+      return;
+   }
+}
+
+
+
