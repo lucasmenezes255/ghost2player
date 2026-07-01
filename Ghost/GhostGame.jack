@@ -21,6 +21,9 @@ class GhostGame {
    field Random random;
    field Ghost ghost;
    field Player player;
+   field int frames;
+   field int segundos_liberar;
+   field int segundos_jogo;
 
    /** Constructs a new Square Game. */
    constructor GhostGame new() {
@@ -43,6 +46,9 @@ class GhostGame {
 
       let direction_ghost = 0;  // initial state is no movement
       let direction_player = 0;
+      let frames = 0;
+      let segundos_liberar = 0;
+      let segundos_jogo = 7;
       return this;
    }
 
@@ -87,11 +93,11 @@ class GhostGame {
          if (key = 140)  { let exit = true; }     // ESC key
          // if (key = 90)  { do ghost.decSize(); } // z key
          // if (key = 88)  { do ghost.incSize(); } // x key
-         if (key = 131) { let direction_ghost = 1; }   // up arrow
-         if (key = 133) { let direction_ghost = 2; }   // down arrow
-         if (key = 130) { let direction_ghost = 3; }   // left arrow
-         if (key = 132) { let direction_ghost = 4; }   // right arrow
-         if (key = 46) {let direction_ghost = 0;}      // .
+         if (key = 131 & segundos_liberar > 3) { let direction_ghost = 1; }   // up arrow
+         if (key = 133 & segundos_liberar > 3) { let direction_ghost = 2; }   // down arrow
+         if (key = 130 & segundos_liberar > 3) { let direction_ghost = 3; }   // left arrow
+         if (key = 132 & segundos_liberar > 3) { let direction_ghost = 4; }   // right arrow
+         if (key = 46 & segundos_liberar > 3) {let direction_ghost = 0;}      // .
 
          if (key = 87) { let direction_player = 1;} // W Key
          if (key = 83) { let direction_player = 2;} // S Key
@@ -104,7 +110,27 @@ class GhostGame {
          do movePlayer();
 
          do Sys.wait(50);
-
+         let frames = frames +1;
+         if (frames = 20){
+            let frames = 0;
+            let segundos_liberar = segundos_liberar + 1;
+         if (segundos_liberar < 4){
+            do Output.moveCursor(3, 31);
+            do Output.printInt(segundos_liberar);
+         }
+         if ((segundos_liberar = 4) | (segundos_liberar > 4)){
+            do Output.moveCursor(3,30);
+            do Output.printString("       ");
+            do Output.moveCursor(3  , 30);
+            do Output.printString("GO!");
+            do Output.moveCursor(4, 31);
+            do Output.printInt(segundos_jogo);
+            let segundos_jogo = segundos_jogo - 1;
+         }
+         if (segundos_jogo < 0){
+            do gameover();
+         }
+         }
       }
       return;
    }
