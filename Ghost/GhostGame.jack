@@ -26,9 +26,21 @@ class GhostGame {
    constructor GhostGame new() {
       // Creates a 30 by 30 pixels square and positions it at the top-left
       // of the screen.
-      let ghost = Ghost.new(0, 0);
-      let player = Player.new(96, 96);
-      let random = Random.new(19);
+      /** Definição de nascimento dos personagens aleatoriamente.*/
+      var int seed;
+      while (Keyboard.keyPressed() = 0) {
+         let seed = seed + 1;
+      }
+      let random = Random.new(seed);
+      let ghost = Ghost.new(
+         (random.randRange(30) * 16),
+         (random.randRange(15) * 16)
+      );
+      let player = Player.new(
+         (random.randRange(30) * 16),
+         (random.randRange(15) * 16)
+      );
+
       let direction_ghost = 0;  // initial state is no movement
       let direction_player = 0;
       return this;
@@ -66,7 +78,8 @@ class GhostGame {
       var char key;  // the key currently pressed by the user
       var boolean exit;
       let exit = false;
-      
+      let direction_ghost = 0;      //reset na movimentação
+      let direction_player = 0;     //dos personagens
       while (~exit) {
          // waits for a key to be pressed
          let key = Keyboard.keyPressed();
