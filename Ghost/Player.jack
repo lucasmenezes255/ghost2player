@@ -39,25 +39,25 @@ class Player {
       return;
    }
 
-   method void drawPlayer(int location) {
+   method void drawPlayer(int location) {  
       let memAddress = 16384+location;
-      do Memory.poke(memAddress+0, 8184);
-      do Memory.poke(memAddress+32, 16380);
-      do Memory.poke(memAddress+64, 25542);
-      do Memory.poke(memAddress+96, -1);
-      do Memory.poke(memAddress+128, -2065);
-      do Memory.poke(memAddress+160, -7225);
-      do Memory.poke(memAddress+192, -7225);
-      do Memory.poke(memAddress+224, -2065);
-      do Memory.poke(memAddress+256, -1);
-      do Memory.poke(memAddress+288, -1);
-      do Memory.poke(memAddress+320, -1);
-      do Memory.poke(memAddress+352, -4081);
-      do Memory.poke(memAddress+384, -2017);
-      do Memory.poke(memAddress+416, -961);
-      do Memory.poke(memAddress+448, -1);
-      do Memory.poke(memAddress+480, -1);
-      return;
+      do Memory.poke(memAddress +   0, 2016);
+      do Memory.poke(memAddress +  32, 2064);
+      do Memory.poke(memAddress +  64, 2640);
+      do Memory.poke(memAddress +  96, 2640);
+      do Memory.poke(memAddress + 128, 2064);
+      do Memory.poke(memAddress + 160, 2448);
+      do Memory.poke(memAddress + 192, 2064);
+      do Memory.poke(memAddress + 224, 2016);
+      do Memory.poke(memAddress + 256, 576);
+      do Memory.poke(memAddress + 288, 1056);
+      do Memory.poke(memAddress + 320, 2448);
+      do Memory.poke(memAddress + 352, 2576);
+      do Memory.poke(memAddress + 384, 2576);
+      do Memory.poke(memAddress + 416, 2448);
+      do Memory.poke(memAddress + 448, 2064);
+      do Memory.poke(memAddress + 480, 4080);
+   return;
    }
 
 

@@ -71,7 +71,7 @@ class GhostGame {
          // waits for a key to be pressed
          let key = Keyboard.keyPressed();
 
-         if (key = 81)  { let exit = true; }     // Q key
+         if (key = 140)  { let exit = true; }     // ESC key
          // if (key = 90)  { do ghost.decSize(); } // z key
          // if (key = 88)  { do ghost.incSize(); } // x key
          if (key = 131) { let direction_ghost = 1; }   // up arrow
