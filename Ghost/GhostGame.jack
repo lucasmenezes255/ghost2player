@@ -21,6 +21,7 @@ class GhostGame {
    field Random random;
    field Ghost ghost;
    field Player player;
+   field Map map;
    field int frames;
    field int segundos_liberar;
    field int segundos_jogo;
@@ -49,6 +50,10 @@ class GhostGame {
       let frames = 0;
       let segundos_liberar = 0;
       let segundos_jogo = 7;
+
+      let map = Map.new();     // Cria o objeto do mapa
+      do map.drawMap();        // Pinta o mapa na tela
+
       return this;
    }
 
