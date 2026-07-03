@@ -244,7 +244,7 @@ function Player.moveDown 0
     push this 1
     push this 2
     add
-    push constant 254
+    push constant 257
     lt
     not
     if-goto Player_7
@@ -292,7 +292,7 @@ function Player.moveRight 0
     push this 0
     push this 2
     add
-    push constant 510
+    push constant 513
     lt
     not
     if-goto Player_11

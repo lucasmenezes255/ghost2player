@@ -21,11 +21,11 @@ class Map{
             let i = i + 1;
         }
 
-        do inicializarLinha(0, 0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,1,0,1,0,0,0,0);
-        do inicializarLinha(1, 0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,1,0,1,0,0,0,0,1,0,0,0,0,1,0,0,1,0);
-        do inicializarLinha(2, 0,1,0,1,1,1,0,0,0,1,1,1,1,0,0,0,0,1,0,1,1,1,1,1,1,0,0,0,0,0,1,1);
-        do inicializarLinha(3, 0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0);
-        do inicializarLinha(4, 0,0,0,1,0,0,0,0,0,0,0,0,1,1,1,1,1,1,0,0,0,1,0,0,0,0,0,0,1,0,0,0);
+        do inicializarLinha(0, 0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,0,1,0,0,0,0);
+        do inicializarLinha(1, 0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,1,0);
+        do inicializarLinha(2, 0,1,0,1,1,1,0,0,0,1,1,1,1,0,0,0,0,0,0,1,1,1,1,1,1,0,0,0,0,0,1,1);
+        do inicializarLinha(3, 0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0);
+        do inicializarLinha(4, 0,0,0,1,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,1,0,0,0);
         do inicializarLinha(5, 0,0,0,1,1,1,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,1,0,0);
         do inicializarLinha(6, 0,0,0,1,0,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,0,1,0,0,1,0,0,0);
         do inicializarLinha(7, 0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,1,1,1,1,1,1,0,0,0);
@@ -41,7 +41,7 @@ class Map{
         return this;
     }
 
-   // Método que inicializa cada linha da matriz onde 1 representa o bloco pintado e 0 não pintado
+    // Método que inicializa cada linha da matriz onde 1 representa o bloco pintado e 0 não pintado
     method void inicializarLinha(int r, 
         int c0, int c1, int c2, int c3, int c4, int c5, int c6, int c7, 
         int c8, int c9, int c10,int c11,int c12,int c13,int c14,int c15,
@@ -80,5 +80,22 @@ class Map{
             let r = r + 1;
         }
         return;
+    }
+
+    /* Método que verifica se há uma parede próxima ou não**/
+    method boolean isWall(int x, int y){
+        var int posx, posy;
+        var Array linha;
+
+        let posx = x / 16;
+        let posy = y / 16;
+        if ((posx < 0) | (posx > 31) | (posy < 0) | (posy >15)){ return true; }
+        if ((posy < 2) & (posx > 9) & (posx < 23)) {
+            return true; 
+        }
+        let linha = grid[posy];
+        if (linha[posx] = 1) {return true;}
+
+        return false;
     }
 }

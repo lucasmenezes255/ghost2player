@@ -49,7 +49,7 @@ label Map_1
     push constant 0
     push constant 0
     push constant 0
-    push constant 1
+    push constant 0
     push constant 0
     push constant 0
     push constant 0
@@ -85,9 +85,9 @@ label Map_1
     push constant 0
     push constant 0
     push constant 0
-    push constant 1
     push constant 0
-    push constant 1
+    push constant 0
+    push constant 0
     push constant 0
     push constant 0
     push constant 0
@@ -123,7 +123,7 @@ label Map_1
     push constant 0
     push constant 0
     push constant 0
-    push constant 1
+    push constant 0
     push constant 0
     push constant 1
     push constant 1
@@ -161,9 +161,9 @@ label Map_1
     push constant 0
     push constant 0
     push constant 0
-    push constant 0
-    push constant 0
     push constant 1
+    push constant 0
+    push constant 0
     push constant 0
     push constant 0
     push constant 0
@@ -196,10 +196,10 @@ label Map_1
     push constant 1
     push constant 1
     push constant 1
-    push constant 0
-    push constant 0
-    push constant 0
     push constant 1
+    push constant 1
+    push constant 0
+    push constant 0
     push constant 0
     push constant 0
     push constant 0
@@ -948,5 +948,81 @@ label Map_5
     pop local 0
     goto Map_2
 label Map_3
+    push constant 0
+    return
+function Map.isWall 3
+    push argument 0
+    pop pointer 0
+    push argument 1
+    push constant 16
+    call Math.divide 2
+    pop local 0
+    push argument 2
+    push constant 16
+    call Math.divide 2
+    pop local 1
+    push local 0
+    push constant 0
+    lt
+    push local 0
+    push constant 31
+    gt
+    or
+    push local 1
+    push constant 0
+    lt
+    or
+    push local 1
+    push constant 15
+    gt
+    or
+    not
+    if-goto Map_9
+    push constant 1
+    neg
+    return
+    goto Map_8
+label Map_9
+label Map_8
+    push local 1
+    push constant 2
+    lt
+    push local 0
+    push constant 9
+    gt
+    and
+    push local 0
+    push constant 23
+    lt
+    and
+    not
+    if-goto Map_11
+    push constant 1
+    neg
+    return
+    goto Map_10
+label Map_11
+label Map_10
+    push local 1
+    push this 0
+    add
+    pop pointer 1
+    push that 0
+    pop local 2
+    push local 0
+    push local 2
+    add
+    pop pointer 1
+    push that 0
+    push constant 1
+    eq
+    not
+    if-goto Map_13
+    push constant 1
+    neg
+    return
+    goto Map_12
+label Map_13
+label Map_12
     push constant 0
     return

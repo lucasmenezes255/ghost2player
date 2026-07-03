@@ -32,27 +32,43 @@ class GhostGame {
       // of the screen.
       /** Definição de nascimento dos personagens aleatoriamente.*/
       var int seed;
+      var int sortX, sortY;
+      var boolean spawnValido;
+
+      let map = Map.new();     // Cria o objeto do mapa
+      do map.drawMap();        // Pinta o mapa na tela
+
       while (Keyboard.keyPressed() = 0) {
          let seed = seed + 1;
       }
       let random = Random.new(seed);
-      let ghost = Ghost.new(
-         (random.randRange(30) * 16),
-         (random.randRange(15) * 16)
-      );
-      let player = Player.new(
-         (random.randRange(30) * 16),
-         (random.randRange(15) * 16)
-      );
+      
+      while (~spawnValido){
+         let sortX = random.randRange(31) * 16;
+         let sortY = random.randRange(15) * 16;
+
+         if (~(map.isWall(sortX, sortY))){
+            let spawnValido = true;
+         }
+      }
+      let ghost = Ghost.new(sortX, sortY);
+
+      let spawnValido = false;
+      while (~spawnValido){
+         let sortX = random.randRange(31) * 16;
+         let sortY = random.randRange(15) * 16;
+
+         if (~(map.isWall(sortX, sortY))){
+            let spawnValido = true;
+         }
+      }
+      let player = Player.new(sortX, sortY);
 
       let direction_ghost = 0;  // initial state is no movement
       let direction_player = 0;
       let frames = 0;
       let segundos_liberar = 0;
       let segundos_jogo = 7;
-
-      let map = Map.new();     // Cria o objeto do mapa
-      do map.drawMap();        // Pinta o mapa na tela
 
       return this;
    }
@@ -67,19 +83,47 @@ class GhostGame {
 
    /** Moves the square in the current direction. */
    method void moveGhost() {
-      if (direction_ghost = 1) { do ghost.moveUp(); }
-      if (direction_ghost = 2) { do ghost.moveDown(); }
-      if (direction_ghost = 3) { do ghost.moveLeft(); }
-      if (direction_ghost = 4) { do ghost.moveRight(); }
+      var int nextX, nextY;
+      let nextX = ghost.getX();
+      let nextY = ghost.getY();
+
+      if (direction_ghost = 1) { let nextY = nextY - 16; }
+      if (direction_ghost = 2) { let nextY = nextY + 16; }
+      if (direction_ghost = 3) { let nextX = nextX - 16; }
+      if (direction_ghost = 4) { let nextX = nextX + 16; }
+      
+      if (map.isWall(nextX, nextY)) {
+         let direction_ghost = 0;
+      }
+      else {
+         if (direction_ghost = 1) { do ghost.moveUp(); }
+         if (direction_ghost = 2) { do ghost.moveDown(); }
+         if (direction_ghost = 3) { do ghost.moveLeft(); }
+         if (direction_ghost = 4) { do ghost.moveRight(); }
+      }
       do Sys.wait(5);  // delays the next movement
       return;
    }
 
    method void movePlayer() {
-      if (direction_player = 1) { do player.moveUp(); }
-      if (direction_player = 2) { do player.moveDown(); }
-      if (direction_player = 3) { do player.moveLeft(); }
-      if (direction_player = 4) { do player.moveRight(); }
+      var int nextX, nextY;
+      let nextX = player.getX();
+      let nextY = player.getY();
+
+      if (direction_player = 1) { let nextY = nextY - 16; }
+      if (direction_player = 2) { let nextY = nextY + 16; }
+      if (direction_player = 3) { let nextX = nextX - 16; }
+      if (direction_player = 4) { let nextX = nextX + 16; }
+      
+      if (map.isWall(nextX, nextY)) {
+         let direction_player = 0;
+      }
+      else {
+         if (direction_player = 1) { do player.moveUp(); }
+         if (direction_player = 2) { do player.moveDown(); }
+         if (direction_player = 3) { do player.moveLeft(); }
+         if (direction_player = 4) { do player.moveRight(); }
+      }
       do Sys.wait(5);  // delays the next movement
       return;
    }
@@ -96,21 +140,21 @@ class GhostGame {
          let key = Keyboard.keyPressed();
 
          if (key = 140)  { let exit = true; }     // ESC key
-         // if (key = 90)  { do ghost.decSize(); } // z key
-         // if (key = 88)  { do ghost.incSize(); } // x key
          if (key = 131 & segundos_liberar > 3) { let direction_ghost = 1; }   // up arrow
          if (key = 133 & segundos_liberar > 3) { let direction_ghost = 2; }   // down arrow
          if (key = 130 & segundos_liberar > 3) { let direction_ghost = 3; }   // left arrow
          if (key = 132 & segundos_liberar > 3) { let direction_ghost = 4; }   // right arrow
          if (key = 46 & segundos_liberar > 3) {let direction_ghost = 0;}      // .
 
-         if (key = 87) { let direction_player = 1;} // W Key
-         if (key = 83) { let direction_player = 2;} // S Key
-         if (key = 65) { let direction_player = 3;}  // A Key
-         if (key = 68) { let direction_player = 4;} // D Key
+         if (key = 119) { let direction_player = 1;} // w Key
+         if (key = 115) { let direction_player = 2;} // s Key
+         if (key = 97) { let direction_player = 3;}  // a Key
+         if (key = 100) { let direction_player = 4;} // d Key
          if (key = 59) {let direction_player = 0;}   // ; Key
 
-         do checkCollision();
+         if (checkCollision()) {
+            let exit = true;
+         }
          do moveGhost();
          do movePlayer();
 
@@ -120,12 +164,14 @@ class GhostGame {
             let frames = 0;
             let segundos_liberar = segundos_liberar + 1;
          if (segundos_liberar < 4){
-            do Output.moveCursor(3, 31);
+            do Output.moveCursor(3, 28);
+            do Output.printString("PREPARAR");
+            do Output.moveCursor(4, 31);
             do Output.printInt(segundos_liberar);
          }
          if ((segundos_liberar = 4) | (segundos_liberar > 4)){
-            do Output.moveCursor(3,30);
-            do Output.printString("       ");
+            do Output.moveCursor(3,28);
+            do Output.printString("        ");
             do Output.moveCursor(3  , 30);
             do Output.printString("GO!");
             do Output.moveCursor(4, 31);
@@ -133,20 +179,30 @@ class GhostGame {
             let segundos_jogo = segundos_jogo - 1;
          }
          if (segundos_jogo < 0){
-            do gameover();
+            do gameover_win();
+            do Sys.wait(300);
+            let exit = true;
          }
          }
       }
       return;
    }
-   /* Imprime uma telinha simples de Game Over quando os personagens colidem! **/
+   /* Imprime uma telinha simples de Game Over quando os personagens colidem! - O fantasma ganha **/
    method void gameover(){
       do Screen.clearScreen();
-      do Output.moveCursor(11, 26);
-      do Output.printString("GAME OVER!");
+      do Output.moveCursor(11, 18);
+      do Output.printString("GAME OVER! - Jogador 2 Ganhou!");
       return;
    }
-   method void checkCollision(){
+
+   /* Imprime uma telinha simples de Game Over quando os personagens colidem! - O player ganha **/
+   method void gameover_win(){
+      do Screen.clearScreen();
+      do Output.moveCursor(11, 18);
+      do Output.printString("GAME OVER! - Jogador 1 Ganhou!");
+      return;
+   }
+   method boolean checkCollision(){
       var int proxGhostX;
       var int proxGhostY;
       var int proxPlayerX;
@@ -170,17 +226,19 @@ class GhostGame {
       if ((proxGhostX = proxPlayerX) & (proxGhostY = proxPlayerY)){     // Verifica se os personagens vão se sobrepor
          let direction_ghost = 0;
          let direction_player = 0;
-         
          do gameover();
+         do Sys.wait(300);
+         return true;
       }
 
       if (((proxGhostX = player.getX()) & (proxGhostY = player.getY())) &  // Verifica se um personagem está no caminho do outro
          ((proxPlayerX = ghost.getX()) & (proxPlayerY = ghost.getY()))){
          let direction_ghost = 0;
          let direction_player = 0;
-
          do gameover();
+         do Sys.wait(300);
+         return true;
       }
-      return;
+      return false;
    }
 }
