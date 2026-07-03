@@ -1,23 +1,18 @@
-// This file is part of www.nand2tetris.org
-// and the book "The Elements of Computing Systems"
-// by Nisan and Schocken, MIT Press.
-// File name: projects/09/Square/SquareGame.jack
-
 /**
- * Implements the Square Dance game.
- * This simple game allows the user to move a black square around
- * the screen, and change the square's size during the movement.
- * When the game starts, a square of 30 by 30 pixels is shown at the
- * top-left corner of the screen. The user controls the square as follows.
- * The 4 arrow keys are used to move the square up, down, left, and right.
- * The 'z' and 'x' keys are used, respectively, to decrement and increment
- * the square's size. The 'q' key is used to quit the game.
- */
+Implementação do jogo Ghost Multiplayer.
+Este jogo simples permite a dois usuário moverem 
+um fantasma ou o humano pela tela.
+Ao iniciar o jogo, o fantasma e o humano aparecem em lugares aleatórios do mapa. 
+O usuário controla o fantasma da seguinte forma:
+As 4 teclas de seta são usadas para mover o quadrado para cima, para baixo, para a esquerda e para a direita.
+O usuário controla o humano da seguinte forma:
+As teclas WASD são usadas para mover o quadrado para cima, para a esquerda, para baixo, e para a direita, respectivamente.
+*/
 
 class GhostGame {
-   field int direction_ghost; // the square's current direction: 
-                        // 0=none, 1=up, 2=down, 3=left, 4=right
-   field int direction_player;
+   field int direction_ghost; // direção atual do fantasma: 
+                        // 0=nenhuma, 1=para cima, 2=para baixo, 3=esquerda, 4=direita
+   field int direction_player; // direção atual do humano (seguindo a mesma lógica)
    field Random random;
    field Ghost ghost;
    field Player player;
@@ -26,10 +21,8 @@ class GhostGame {
    field int segundos_liberar;
    field int segundos_jogo;
 
-   /** Constructs a new Square Game. */
+   /** Constrói um novo jogo do Ghost. */
    constructor GhostGame new() {
-      // Creates a 30 by 30 pixels square and positions it at the top-left
-      // of the screen.
       /** Definição de nascimento dos personagens aleatoriamente.*/
       var int seed;
       var int sortX, sortY;
@@ -64,16 +57,16 @@ class GhostGame {
       }
       let player = Player.new(sortX, sortY);
 
-      let direction_ghost = 0;  // initial state is no movement
+      let direction_ghost = 0;  // o estado inicial é "sem movimento"
       let direction_player = 0;
       let frames = 0;
       let segundos_liberar = 0;
-      let segundos_jogo = 7;
+      let segundos_jogo = 60;
 
       return this;
    }
 
-   /** Disposes this game. */
+   /** Aloca o jogo. */
    method void dispose() {
       do ghost.dispose();
       do player.dispose();
@@ -81,7 +74,7 @@ class GhostGame {
       return;
    }
 
-   /** Moves the square in the current direction. */
+   /** Move o fantasma na direção especificada. */
    method void moveGhost() {
       var int nextX, nextY;
       let nextX = ghost.getX();
@@ -101,10 +94,11 @@ class GhostGame {
          if (direction_ghost = 3) { do ghost.moveLeft(); }
          if (direction_ghost = 4) { do ghost.moveRight(); }
       }
-      do Sys.wait(5);  // delays the next movement
+      do Sys.wait(5);  // delay no próximo movimento
       return;
    }
 
+ /** Move o humano na direção especificada. */
    method void movePlayer() {
       var int nextX, nextY;
       let nextX = player.getX();
@@ -124,26 +118,26 @@ class GhostGame {
          if (direction_player = 3) { do player.moveLeft(); }
          if (direction_player = 4) { do player.moveRight(); }
       }
-      do Sys.wait(5);  // delays the next movement
+      do Sys.wait(5);  // delay no próximo movimento
       return;
    }
 
-   /** Runs the game: handles the user's inputs and moves the square accordingly */
+   /** Roda o jogo, lê o input do user e corresponde com uma ação*/
    method void run() {
-      var char key;  // the key currently pressed by the user
+      var char key;  // a tecla pressionada pelo user no momento
       var boolean exit;
       let exit = false;
       let direction_ghost = 0;      //reset na movimentação
       let direction_player = 0;     //dos personagens
       while (~exit) {
-         // waits for a key to be pressed
+         // Espera uma tecla ser pressionada
          let key = Keyboard.keyPressed();
 
          if (key = 140)  { let exit = true; }     // ESC key
-         if (key = 131 & segundos_liberar > 3) { let direction_ghost = 1; }   // up arrow
-         if (key = 133 & segundos_liberar > 3) { let direction_ghost = 2; }   // down arrow
-         if (key = 130 & segundos_liberar > 3) { let direction_ghost = 3; }   // left arrow
-         if (key = 132 & segundos_liberar > 3) { let direction_ghost = 4; }   // right arrow
+         if (key = 131 & segundos_liberar > 3) { let direction_ghost = 1; }   // seta pra cima
+         if (key = 133 & segundos_liberar > 3) { let direction_ghost = 2; }   // seta pra baixo
+         if (key = 130 & segundos_liberar > 3) { let direction_ghost = 3; }   // seta pra esquerda
+         if (key = 132 & segundos_liberar > 3) { let direction_ghost = 4; }   // seta pra direita
          if (key = 46 & segundos_liberar > 3) {let direction_ghost = 0;}      // .
 
          if (key = 119) { let direction_player = 1;} // w Key
@@ -157,7 +151,7 @@ class GhostGame {
          }
          do moveGhost();
          do movePlayer();
-
+         // Construção do cronômetro
          do Sys.wait(50);
          let frames = frames +1;
          if (frames = 20){
@@ -227,7 +221,7 @@ class GhostGame {
          let direction_ghost = 0;
          let direction_player = 0;
          do gameover();
-         do Sys.wait(300);
+         do Sys.wait(500);
          return true;
       }
 
@@ -236,7 +230,7 @@ class GhostGame {
          let direction_ghost = 0;
          let direction_player = 0;
          do gameover();
-         do Sys.wait(300);
+         do Sys.wait(500);
          return true;
       }
       return false;

@@ -1,16 +1,11 @@
-// This file is part of www.nand2tetris.org
-// and the book "The Elements of Computing Systems"
-// by Nisan and Schocken, MIT Press.
-// File name: projects/09/Square/Square.jack
-
-/** Implements a graphical square. */
+/** Implementação do humano. */
 class Player {
 
-   field int x, y; // screen location of the square's top-left corner
-   field int size; // length of this square, in pixels
+   field int x, y; // localização de pontos da tela
+   field int size; // tamanho do humano em pixels
    field int memAddress;
 
-   /** Constructs a new square with a given location and size. */
+   /** Constrói um humano com as coordenadas e tamanho definidos. */
    constructor Player new(int Ax, int Ay) {
       let x = Ax;
       let y = Ay;
@@ -20,25 +15,26 @@ class Player {
       return this;
    }
 
-   /** Disposes this square. */
+   /** Aloca o humano. */
    method void dispose() {
       do Memory.deAlloc(this);
       return;
    }
 
-   /** Draws the square on the screen. */
+   /** Desenha o humano na tela. */
    method void draw() {
       do drawPlayer(y*32+(x/size));
       return;
    }
 
-   /** Erases the square from the screen. */
+   /** Apaga o humano da tela. */
    method void erase() {
       do Screen.setColor(false);
       do Screen.drawRectangle(x, y, x + size, y + size);
       return;
    }
 
+   // "Sprite" do humano
    method void drawPlayer(int location) {  
       let memAddress = 16384+location;
       do Memory.poke(memAddress +   0, 2016);
@@ -62,7 +58,7 @@ class Player {
 
 
 
-    /** Increments the square size by 2 pixels. */
+   /** Aumenta o tamanho do humano em 2 pixels. */
    method void incSize() {
       if (((y + size) < 254) & ((x + size) < 510)) {
          do erase();
@@ -72,7 +68,7 @@ class Player {
       return;
    }
 
-   /** Decrements the square size by 2 pixels. */
+   /** Diminui o tamanho do humano em 2 pixels. */
    method void decSize() {
       if (size > 2) {
          do erase();
@@ -82,7 +78,7 @@ class Player {
       return;
    }
 
-   /** Moves the ghost up by 16 pixels. */
+   /** Move o humano em 16 pixels para cima. */
    method void moveUp() {
       if (y > 15) {
          do erase();
@@ -92,7 +88,7 @@ class Player {
       return;
    }
 
-   /** Moves the square down by 16 pixels. */
+   /** Move o humano em 16 pixels para baixo. */
    method void moveDown() {
       if ((y + size) < 257) {
          do erase();
@@ -102,7 +98,7 @@ class Player {
       return;
    }
 
-   /** Moves the ghost left by 16 pixels. */
+   /** Move o humano em 16 pixels para esquerda. */
    method void moveLeft() {
       if (x > 15) {
          do erase();
@@ -112,7 +108,7 @@ class Player {
       return;
    }
 
-   /** Moves the square right by 16 pixels. */
+   /** Move o humano em 16 pixels para direita. */
    method void moveRight() {
       if ((x + size) < 513) {
          do erase();
@@ -122,10 +118,12 @@ class Player {
       return;
    }
 
+   // Retorna o valor de x do humano
    method int getX(){
       return x;
    }
 
+   // Retorna o valor de y do humano
    method int getY(){
       return y;
    }

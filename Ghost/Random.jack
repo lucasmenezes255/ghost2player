@@ -1,17 +1,11 @@
-// https://github.com/xctom/Nand2Tetris/blob/master/projects/09/PigDice/Random.jack
-
 /**
-Reference: http://nand2tetris-questions-and-answers-forum.32033.n3.nabble.com/Random-number-generator-for-hack-cpu-td4025503.html#a4025511
-
-There is no random generator in Jack
-So we need to generate pseudo random number by ourself
-This class is quite simple random number generator
-
-Improvement: let the number be more random by adding shift number
+Não existe um gerador de números aleatórios no Jack,
+então precisamos gerar números pseudoaleatórios por conta própria.
+Esta classe é um gerador de números aleatórios bastante simples.
 **/
 
 class Random {
-    field int seed; //random seed
+    field int seed; // seed aleatória
     field int calledTime;
 
     constructor Random new(int seedIn) {
@@ -24,7 +18,7 @@ class Random {
     }
 
     method int rand() {
-        /** return a random number in the range 0..32767 */
+        /** Retorna um número aleatório no intervalo [0..32767] */
 
         let seed = seed + 20251;
 
@@ -36,7 +30,7 @@ class Random {
     }
 
     method int randRange(int range) {
-        /** return a random number in the range 0..range */
+        /** Retorna um número aleatório num intervalo específico [0..intervalo] */
         var int mask;
         var int ret;
 
@@ -57,7 +51,7 @@ class Random {
         return ret;
     }
 
-    //get new shift number according to called times
+    // Calcula o novo valor de deslocamento com base na quantidade de chamadas
     method int getShift() {
         var int temp;
 
@@ -73,7 +67,7 @@ class Random {
         return temp;
     }
 
-    //dispose the Oject
+    // Aloca o objeto
     method void dispose(){
         do Memory.deAlloc(this);
         return;
