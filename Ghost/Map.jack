@@ -98,4 +98,10 @@ class Map{
 
         return false;
     }
+
+    /** Aloca o mapa. */
+    method void dispose() {
+        do Memory.deAlloc(this);
+        return;
+    }
 }

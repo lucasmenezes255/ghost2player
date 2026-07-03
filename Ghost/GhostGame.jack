@@ -70,6 +70,7 @@ class GhostGame {
    method void dispose() {
       do ghost.dispose();
       do player.dispose();
+      do map.dispose();
       do Memory.deAlloc(this);
       return;
    }
@@ -174,7 +175,7 @@ class GhostGame {
          }
          if (segundos_jogo < 0){
             do gameover_win();
-            do Sys.wait(300);
+            do Sys.wait(700);
             let exit = true;
          }
          }
@@ -221,7 +222,7 @@ class GhostGame {
          let direction_ghost = 0;
          let direction_player = 0;
          do gameover();
-         do Sys.wait(500);
+         do Sys.wait(700);
          return true;
       }
 
@@ -230,7 +231,7 @@ class GhostGame {
          let direction_ghost = 0;
          let direction_player = 0;
          do gameover();
-         do Sys.wait(500);
+         do Sys.wait(700);
          return true;
       }
       return false;
